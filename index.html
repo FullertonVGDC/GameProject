@@ -19,7 +19,12 @@
     var paddle2Y = 250;
     var paddle1Height = 100;
     var paddle2Height = 100; 
+    var p1Score = 0;
+    var p2Score = 0;
+    const winScore = 3;
 
+    var showingWinScreen = false;
+    var showingStartScreen = false;
     
     function calculateMousePos(evt){
       var rect = canvas.getBoundingClientRect();
@@ -35,6 +40,11 @@
     //added
     function handleMouseClick(evt){
       //what todo when click
+      if(showingWinScreen){
+        p1score=0;
+        p2score=0;
+        showingWinScreeen = false;
+      }
     }
     
     
@@ -43,6 +53,10 @@
           canvasContext = canvas.getContext('2d');
       
           var FPS = 30; // Caps FPS at 30 frames
+          setInterval(function(){
+                moveEverything();
+                drawEverything();
+            }, 1000/FPS);
       
           canvas.addEventListener('mousedown', handleMouseClick);
           canvas.addEventListener('mousemove',
@@ -52,11 +66,43 @@
           drawEverything();
       }
     
+    function ballSet(){
+      if(p1Score >= winScore || p2Score >= winScore){
+                showingWinScreen = true;
+      }
+            ballSpeedX = -ballSpeedX;
+            ballX = canvas.width/2;
+            ballY = canvas.height/2;
+    }
+    function moveEverything(){
+      if(showingStartScreen||showingWinScreen){
+         return;
+      }
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+    }
+    
     function drawEverything(){
           colorRect(0,0,canvas.width,canvas.height,'black');
           colorRect(10,10,10,10,'white');
           colorRect(780,10,10,10,'white');
           colorCircle(200,200,10,'white');
+          
+          if(showingWinScreen){
+             if(p1Score >= winScore){
+                canvasContext.fillStyle = 'white';
+                canvasContext.fillText('Player 1 Wins!', 350,200);
+             }
+             else if(p2Score >= winScore){
+                canvasContext.fillStyle = 'white';
+                canvasContext.fillText('Player 2 Wins!', 350,200);
+             }
+             canvasContext.fillText('click to continue',350,500);
+            return;
+          }
+          if(showingStartScreen){
+            //TODO 
+          }
     }
 
     function colorCircle(CenterX, CenterY, radius, drawColor){
