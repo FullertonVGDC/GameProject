@@ -55,7 +55,7 @@
     function colorCircle(CenterX, CenterY, radius, drawColor){
       canvasContext.fillStyle = drawColor;
       canvasContext.beginPath();
-      canvasContext.arc(CenterX,CenterY,radius,0,Math.*PI*2,true);
+      canvasContext.arc(CenterX,CenterY,radius,0,Math.PI*2,true); //error
       canvasContext.fill();
     }
     function colorRect(LeftX,TopY,width,height,drawColor){
